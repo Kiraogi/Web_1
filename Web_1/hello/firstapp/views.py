@@ -1,6 +1,12 @@
 from django.shortcuts import render
+from django.template.response import TemplateResponse
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
+
+
+def index(request):
+    return TemplateResponse(request, 'firstapp\home.html')
+
 
 def access(request, age):
     # Если возраст НЕ выходит в диапазон 1-110, посылаем сообщение 400
@@ -10,11 +16,6 @@ def access(request, age):
         return HttpResponse("Доступ разрешен")
     else: # Если нет, то возвращаем ошибку 403
         return HttpResponseForbidden("Доступ заблокирован: недостаточно лет")
-
-
-
-def index(request):
-    return HttpResponse("<h2>Главная</h2>")
 
 
 def about(request):
