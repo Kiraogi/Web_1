@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
@@ -5,7 +7,35 @@ from django.http import HttpResponseBadRequest, HttpResponseForbidden
 
 
 def index(request):
-    return TemplateResponse(request, 'firstapp\home.html')
+    # header = 'Персональные данные' # Символьная переменная
+    # langs = ['Python', 'Java', 'C++', 'C#'] # Список
+    # user = {'name': 'Igor', 'age': 25} # Словарь
+    # addr = ('Россия', 'Москва', 'Льва Толстого', '16', '1') # Кортеж
+    # data = {'header': header, 'langs': langs, 'user': user, 'addr': addr}
+    # return TemplateResponse(request, 'firstapp/index.html', data)
+
+    # header = 'Иностранные языки' # Символьная переменная
+    # list_langs = ['Python', 'Java', 'C++', 'C#'] # Список
+    # data = {'header': header, 'list_langs': list_langs}
+    # return render(request, 'firstapp/index.html', data)
+
+    # header = 'Разветления в шаблоне'
+    # num =5
+    # var1 = "Это первая ветка в инструкции if"
+    # var2 = "Это вторая ветка в инструкции if"
+    # data = {'header': header, 'num': num, 'var1': var1, 'var2': var2}
+    # return render(request, 'firstapp/index_app1.html', data)
+
+    header = 'Фильтры в шаблонах' #
+    value_num = 5
+    value_date = datetime.datetime.now()
+    value_time = datetime.datetime.now()
+    value_title = 'Это пример использования фильтра title'
+    value_upper = 'Это пример использования фильтра upper'
+    value_lower = 'Это пример использования фильтра lower'
+    data = {'header': header, 'value_num': value_num, 'value_date': value_date, 'value_time': value_time, 'value_title': value_title, 'value_upper': value_upper, 'value_lower': value_lower}
+    return render(request, 'firstapp/index_app1.html', data)
+
 
 
 def access(request, age):
