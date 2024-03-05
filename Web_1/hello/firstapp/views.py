@@ -34,7 +34,7 @@ def index(request):
     value_upper = 'Это пример использования фильтра upper'
     value_lower = 'Это пример использования фильтра lower'
     data = {'header': header, 'value_num': value_num, 'value_date': value_date, 'value_time': value_time, 'value_title': value_title, 'value_upper': value_upper, 'value_lower': value_lower}
-    return render(request, 'firstapp/index_app1.html', data)
+    return render(request, 'firstapp/home.html', data)
 
 
 
