@@ -26,35 +26,42 @@ def index(request):
     # data = {'header': header, 'num': num, 'var1': var1, 'var2': var2}
     # return render(request, 'firstapp/index_app1.html', data)
 
-    header = 'Фильтры в шаблонах' #
+    header = 'Фильтры в шаблонах'  #
     value_num = 5
     value_date = datetime.datetime.now()
     value_time = datetime.datetime.now()
     value_title = 'Это пример использования фильтра title'
     value_upper = 'Это пример использования фильтра upper'
     value_lower = 'Это пример использования фильтра lower'
-    data = {'header': header, 'value_num': value_num, 'value_date': value_date, 'value_time': value_time, 'value_title': value_title, 'value_upper': value_upper, 'value_lower': value_lower}
-    return render(request, 'firstapp/home.html', data)
+    data = {'header': header, 'value_num': value_num, 'value_date': value_date, 'value_time': value_time,
+            'value_title': value_title, 'value_upper': value_upper, 'value_lower': value_lower}
+    return render(request, 'firstapp/index.html', data)
 
+
+def about(request):
+    return render(request, 'firstapp/about.html')
+
+def contact(request):
+    return render(request, 'firstapp/contact.html')
 
 
 def access(request, age):
     # Если возраст НЕ выходит в диапазон 1-110, посылаем сообщение 400
     if age not in range(1, 110):
         return HttpResponseBadRequest("Некорректные данные")
-    if age > 17: # Если возраст больше 17, то доступ разрешен
+    if age > 17:  # Если возраст больше 17, то доступ разрешен
         return HttpResponse("Доступ разрешен")
-    else: # Если нет, то возвращаем ошибку 403
+    else:  # Если нет, то возвращаем ошибку 403
         return HttpResponseForbidden("Доступ заблокирован: недостаточно лет")
 
 
-def about(request):
-    return HttpResponse("<h2>О сайте</h2>")
-
-
-def contact(request):
-    return HttpResponseRedirect('/about')
-    # return HttpResponse("<h2>Контакты</h2>")
+# def about(request):
+#     return HttpResponse("<h2>О сайте</h2>")
+#
+#
+# def contact(request):
+#     return HttpResponseRedirect('/about')
+#     # return HttpResponse("<h2>Контакты</h2>")
 
 
 def products(request, productid=1):
