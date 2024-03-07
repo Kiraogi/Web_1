@@ -26,16 +26,20 @@ def index(request):
     # data = {'header': header, 'num': num, 'var1': var1, 'var2': var2}
     # return render(request, 'firstapp/index_app1.html', data)
 
-    header = 'Фильтры в шаблонах'  #
-    value_num = 5
-    value_date = datetime.datetime.now()
-    value_time = datetime.datetime.now()
-    value_title = 'Это пример использования фильтра title'
-    value_upper = 'Это пример использования фильтра upper'
-    value_lower = 'Это пример использования фильтра lower'
-    data = {'header': header, 'value_num': value_num, 'value_date': value_date, 'value_time': value_time,
-            'value_title': value_title, 'value_upper': value_upper, 'value_lower': value_lower}
-    return render(request, 'firstapp/index.html', data)
+    # header = 'Фильтры в шаблонах'  #
+    # value_num = 5
+    # value_date = datetime.datetime.now()
+    # value_time = datetime.datetime.now()
+    # value_title = 'Это пример использования фильтра title'
+    # value_upper = 'Это пример использования фильтра upper'
+    # value_lower = 'Это пример использования фильтра lower'
+    # data = {'header': header, 'value_num': value_num, 'value_date': value_date, 'value_time': value_time,
+    #         'value_title': value_title, 'value_upper': value_upper, 'value_lower': value_lower}
+
+    my_kv = ['I квартал ->', 'II квартал ->', 'III квартал ->', 'IV квартал ->']
+    my_month = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+    context = {'my_month': my_month, 'my_kv': my_kv}
+    return render(request, 'firstapp/index.html', context)
 
 
 def about(request):
