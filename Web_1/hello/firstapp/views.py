@@ -1,6 +1,6 @@
 import datetime
-
 from django.shortcuts import render
+from .forms import *
 from django.template.response import TemplateResponse
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
@@ -36,17 +36,28 @@ def index(request):
     # data = {'header': header, 'value_num': value_num, 'value_date': value_date, 'value_time': value_time,
     #         'value_title': value_title, 'value_upper': value_upper, 'value_lower': value_lower}
 
-    my_kv = ['I квартал ->', 'II квартал ->', 'III квартал ->', 'IV квартал ->']
-    my_month = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
-    context = {'my_month': my_month, 'my_kv': my_kv}
+    # my_kv = ['I квартал ->', 'II квартал ->', 'III квартал ->', 'IV квартал ->']
+    # my_month = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+    # context = {'my_month': my_month, 'my_kv': my_kv}
+
+    my_text = 'Изучаем формы Django!'
+    context = {'my_text': my_text}
     return render(request, 'firstapp/index.html', context)
 
 
 def about(request):
     return render(request, 'firstapp/about.html')
 
+
 def contact(request):
     return render(request, 'firstapp/contact.html')
+
+
+def my_form(request):
+    my_form = UserForm()
+    # my_form = UserForm(field_order=['age', 'name'])
+    context = {"form": my_form}
+    return render(request, "firstapp/my_form.html", context)
 
 
 def access(request, age):
