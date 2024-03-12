@@ -2,10 +2,12 @@ from django import forms
 
 
 class UserForm(forms.Form):
-    name = forms.CharField(label="Имя",help_text="Введите ФИО")
-    age = forms.IntegerField(label="Возраст", help_text="Введите возраст")
-    comment = forms.CharField(label="Комментарий", widget=forms.Textarea)
-    # field_order = ['age', 'name']
+    name = forms.CharField(label="Имя",help_text="Не менее 3-х символов", min_length=2, max_length=20)
+    age = forms.IntegerField(label="Возраст", help_text="от 1 до 120 лет", min_value=0, max_value=120)
+    # email = forms.EmailField(label="Электронная почта", help_text="Введите электронную почту")
+    # reklama = forms.BooleanField(label="Согласны получать рекламу?", required=False)
+    # comment = forms.CharField(label="Комментарий", widget=forms.Textarea)
+    # # field_order = ['age', 'name']
 
 class UserFormCheckBox(forms.Form):
     basket = forms.BooleanField(label='Положите товар в корзину', required=False)

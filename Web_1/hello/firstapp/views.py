@@ -54,10 +54,17 @@ def contact(request):
 
 
 def my_form(request):
-    my_form = UserForm()
-    # my_form = UserForm(field_order=['age', 'name'])
-    context = {"form": my_form}
-    return render(request, "firstapp/my_form.html", context)
+    # my_form = UserForm()
+    # # my_form = UserForm(field_order=['age', 'name'])
+    # context = {"form": my_form}
+    # return render(request, "firstapp/my_form.html", context)
+    userform = UserForm()
+    if request.method == 'POST':
+        userform = UserForm(request.POST)
+        if userform.is_valid():
+            name = userform.cleaned_data['name']
+            return HttpResponse("<h2>Имя введено корректно - {0}</h2>".format(name))
+    return render(request, "firstapp/my_form.html", {'form': userform})
 
 
 def access(request, age):

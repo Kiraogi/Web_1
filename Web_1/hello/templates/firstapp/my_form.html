@@ -2,6 +2,11 @@
 {% block title %}Формы{% endblock title %}
 {% block header %}Изучаем формы Django{% endblock header %}
 {% block content %}
+<style>
+    .alert{color: red}
+    .form-group{margin:20px;}
+    .form-group input{width:250px; height:25px; border-radius:10px;}
+</style>
 <!--<div class="container-fluid text-start my-2 border border-3">-->
 <!--    <h5>Форма как таблица</h5>-->
 <!--    <form method="Post">-->
@@ -33,13 +38,32 @@
 <!--    </form>-->
 <!--</div>-->
 
-<div class="container-fluid text-start my-2 border border-3">
-    <h5>Валидация данных</h5>
+<!--<div class="container-fluid text-start my-2 border border-3">-->
+<!--    <h5>Валидация данных</h5>-->
+<!--    <form method="Post" novalidate>-->
+<!--        {% csrf_token %}-->
+<!--    <table>-->
+<!--        {{ form.as_table }}-->
+<!--    </table>-->
+<!--        <input type="submit" value="Отправить">-->
+<!--    </form>-->
+<!--</div>-->
+
+<div class="container-fluid text-start my-2 border border-5 border-warning">
+    <h5>Стилизация группы полей</h5>
     <form method="Post">
         {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
+            <div class="form-group my-2">
+            {% for field in form %}
+                <div>{{ field.label_tag }}</div>
+                <div>{{ field }}</div>
+                <div style="color:blue">{{ field.help_text }}</div>
+<!--                <div class="error">{{ field.errors }}</div>-->
+                {% for error in field.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            {% endfor %}
+            </div>
         <input type="submit" value="Отправить">
     </form>
 </div>
