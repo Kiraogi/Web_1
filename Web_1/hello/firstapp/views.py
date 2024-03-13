@@ -58,14 +58,23 @@ def my_form(request):
     # # my_form = UserForm(field_order=['age', 'name'])
     # context = {"form": my_form}
     # return render(request, "firstapp/my_form.html", context)
-    userform = UserForm()
-    if request.method == 'POST':
+    # userform = UserForm()
+    # if request.method == 'POST':
+    #     userform = UserForm(request.POST)
+    #     if userform.is_valid():
+    #         name = userform.cleaned_data['name']
+    #         return HttpResponse("<h2>Имя введено корректно - {0}</h2>".format(name))
+    # return render(request, "firstapp/my_form.html", {'form': userform})
+
+    if request.method == 'PSOT':
         userform = UserForm(request.POST)
         if userform.is_valid():
-            name = userform.cleaned_data['name']
-            return HttpResponse("<h2>Имя введено корректно - {0}</h2>".format(name))
+            name = request.POST.get('name') # Получить значение поля name
+            age = request.POST.get('age') # Получить значение поля age
+            output = "<h2>Пользователь</h2><h3>Имя: {0}, Возраст: {1}</h3>".format(name, age)
+            return HttpResponse(output)
+    userform = UserForm()
     return render(request, "firstapp/my_form.html", {'form': userform})
-
 
 def access(request, age):
     # Если возраст НЕ выходит в диапазон 1-110, посылаем сообщение 400
