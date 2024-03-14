@@ -1,6 +1,7 @@
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import *
+from .models import *
 from django.template.response import TemplateResponse
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
@@ -110,3 +111,21 @@ def users(request):
 
 def details(request):
     return HttpResponsePermanentRedirect('/')
+
+
+def db(request):
+    # Если это POST-запрос, то нужно обрабатывать данные, полученные из формы
+    if request.method == 'POST':
+        # создаем экземпляр формы и заполнение ее введенными данными
+        form = NameForm(request.POST)
+        # Проверяем валидность формы
+        if form.is_valid():
+            # Обработка данных формы (например, запись в БД)
+            form.save()
+            # Перенаправление на другую страницу
+            return redirect('new_form')
+
+    # Создание пустой формы
+    form = NameForm()
+    context = {'form': form}
+    return render(request, 'name.html', context)

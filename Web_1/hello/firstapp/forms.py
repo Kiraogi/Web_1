@@ -1,13 +1,15 @@
 from django import forms
+from .models import Person
 
 
 class UserForm(forms.Form):
-    name = forms.CharField(label="Имя",help_text="Не менее 3-х символов", min_length=2, max_length=20)
+    name = forms.CharField(label="Имя", help_text="Не менее 3-х символов", min_length=2, max_length=20)
     age = forms.IntegerField(label="Возраст", help_text="от 1 до 120 лет", min_value=0, max_value=120)
     # email = forms.EmailField(label="Электронная почта", help_text="Введите электронную почту")
     # reklama = forms.BooleanField(label="Согласны получать рекламу?", required=False)
     # comment = forms.CharField(label="Комментарий", widget=forms.Textarea)
     # # field_order = ['age', 'name']
+
 
 class UserFormCheckBox(forms.Form):
     basket = forms.BooleanField(label='Положите товар в корзину', required=False)
@@ -141,3 +143,9 @@ class UserFormMultiValueField(forms.Form):
 
 class UserFormSplitDateTimeField(forms.Form):
     date_time = forms.SplitDateTimeField(label="Введите дату и время")
+
+
+class NameForm(forms.ModelForm):
+    class Meta:
+        model = Person
+        fields = '__all__'
