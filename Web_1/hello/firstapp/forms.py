@@ -2,13 +2,22 @@ from django import forms
 from .models import Person
 
 
-class UserForm(forms.Form):
-    name = forms.CharField(label="Имя", help_text="Не менее 3-х символов", min_length=2, max_length=20)
-    age = forms.IntegerField(label="Возраст", help_text="от 1 до 120 лет", min_value=0, max_value=120)
-    # email = forms.EmailField(label="Электронная почта", help_text="Введите электронную почту")
-    # reklama = forms.BooleanField(label="Согласны получать рекламу?", required=False)
-    # comment = forms.CharField(label="Комментарий", widget=forms.Textarea)
-    # # field_order = ['age', 'name']
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = Person
+        fields = ['name', 'age']
+        labels = {'name': 'Имя', 'age': 'Возраст'}
+        help_texts = {'name': 'Не менее 3-х символов', 'age': 'от 1 до 120 лет'}
+        error_messages = {'name': {'required': 'Это поле обязательно для заполнения',
+                                   'max_length': 'Не более 20 символов'},
+                          'age': {'max_value': 'Нельзя быть старше 120 лет'}}
+
+    # name = forms.CharField(label="Имя", help_text="Не менее 3-х символов", min_length=2, max_length=20)
+    # age = forms.IntegerField(label="Возраст", help_text="от 1 до 120 лет", min_value=0, max_value=120)
+    # # email = forms.EmailField(label="Электронная почта", help_text="Введите электронную почту")
+    # # reklama = forms.BooleanField(label="Согласны получать рекламу?", required=False)
+    # # comment = forms.CharField(label="Комментарий", widget=forms.Textarea)
+    # # # field_order = ['age', 'name']
 
 
 class UserFormCheckBox(forms.Form):

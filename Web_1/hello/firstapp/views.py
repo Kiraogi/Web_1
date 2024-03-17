@@ -1,7 +1,7 @@
 import datetime
 from django.shortcuts import render, redirect
 from .forms import *
-from .models import *
+from .models import Person
 from django.template.response import TemplateResponse
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
@@ -41,8 +41,9 @@ def index(request):
     # my_month = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
     # context = {'my_month': my_month, 'my_kv': my_kv}
 
-    my_text = 'Изучаем формы Django!'
-    context = {'my_text': my_text}
+    my_text = 'Изучаем модели Django!'
+    people_kol = Person.object_person.count()
+    context = {'my_text': my_text, 'people_kol': people_kol}
     return render(request, 'firstapp/index.html', context)
 
 
@@ -66,16 +67,33 @@ def my_form(request):
     #         name = userform.cleaned_data['name']
     #         return HttpResponse("<h2>Имя введено корректно - {0}</h2>".format(name))
     # return render(request, "firstapp/my_form.html", {'form': userform})
+    #
+    # if request.method == 'PSOT':
+    #     userform = UserForm(request.POST)
+    #     if userform.is_valid():
+    #         name = request.POST.get('name') # Получить значение поля name
+    #         age = request.POST.get('age') # Получить значение поля age
+    #         output = "<h2>Пользователь</h2><h3>Имя: {0}, Возраст: {1}</h3>".format(name, age)
+    #         return HttpResponse(output)
+    # userform = UserForm()
+    # return render(request, "firstapp/my_form.html", {'form': userform})
 
-    if request.method == 'PSOT':
-        userform = UserForm(request.POST)
-        if userform.is_valid():
-            name = request.POST.get('name') # Получить значение поля name
-            age = request.POST.get('age') # Получить значение поля age
-            output = "<h2>Пользователь</h2><h3>Имя: {0}, Возраст: {1}</h3>".format(name, age)
-            return HttpResponse(output)
-    userform = UserForm()
-    return render(request, "firstapp/my_form.html", {'form': userform})
+    # Взаимодействие с формой ввода данных о клиенте
+    if request.method == "POST":  # Пользователь отправил данные
+        form = UserForm(request.POST)  # Создание экземпляра формы
+        if form.is_valid():  # Проверка валидности формы
+            form.save()  # Запись данных в БД
+            # Остаемся на той же странице, обновляем форму
+        else:
+            # Вывод ошибок вместо данных
+            print(form.errors)
+        # Загрузка формы для ввода клиента
+    my_text = 'Сведенья о клиенте'
+    people = Person.object_person.all()
+    form = UserForm()
+    context = {'form': form, 'my_text': my_text, 'people': people}
+    return render(request, "firstapp/my_form.html", context)
+
 
 def access(request, age):
     # Если возраст НЕ выходит в диапазон 1-110, посылаем сообщение 400
