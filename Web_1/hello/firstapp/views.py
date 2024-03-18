@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from .forms import *
 from .models import Person
 from django.template.response import TemplateResponse
-from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
-from django.http import HttpResponseBadRequest, HttpResponseForbidden
+from django.http import *
+
 
 
 def index(request):
@@ -142,6 +142,29 @@ def db(request):
             form.save()
             # Перенаправление на другую страницу
             return redirect('new_form')
+
+
+def edit_form(request, id): # змененение данных клиента в  БД
+    person = Person.object. get(id=id)
+    # Если пользователь вернул отредактированные данные
+    if request.method == "POST":
+        person.name = request.POST.get('name')
+        person.age = request.POST.get('age')
+        person.save()
+        return redirect('my_form')
+    # Если пользователь отправляет данные на редактирование
+    data = {'person': person}
+    return render (request, 'firstapp/edit_form.html', context=data)
+
+
+# Удаление данных о клиенте
+def delete(request, id):
+    try:
+        person = Person.object_person.get(id=id)
+        person.delete()
+        return redirect('my_form')
+    except Person.DoesNotExist:
+        return HttpResponseNotFound('<h2>объект не найден</h2>')
 
     # Создание пустой формы
     form = NameForm()
