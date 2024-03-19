@@ -145,7 +145,7 @@ def db(request):
 
 
 def edit_form(request, id): # змененение данных клиента в  БД
-    person = Person.object. get(id=id)
+    person = Person.object_person.get(id=id)
     # Если пользователь вернул отредактированные данные
     if request.method == "POST":
         person.name = request.POST.get('name')

@@ -81,6 +81,10 @@
                             <td>{{ person.id }}</td>
                             <td> {{ person.name }}</td>
                             <td> {{ person.age }}</td>
+                            <td>
+                                <a href="edit_form/{{ person.id }}">Изменить</a>
+                                <a href="delete/{{ person.id }}">Удалить</a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
