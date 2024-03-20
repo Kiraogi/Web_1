@@ -11,6 +11,20 @@ class Person(models.Model):
     object_person = models.Manager()
     DoesNotExist = models.Manager()
 
+class Image(models.Model): # Загрузка изображения
+    title = models.CharField(max_length=100, null=False, verbose_name="Описание изображения")
+    image = models.ImageField(upload_to="images", null=True, blank=True, verbose_name="Файл с изображением")
+    obj_img=models.Manager()
+    def __str__(self):
+        return self.title
+
+
+class File(models.Model): # Загрузка файлов
+    title = models.CharField(max_length=100, verbose_name="Описание файла")
+    file = models.FileField(upload_to="files", null=True, blank=True, verbose_name="Файл PDF")
+
+    def __str__(self):
+        return self.title
 
 class Company(models.Model):
     name = models.CharField(max_length=30)

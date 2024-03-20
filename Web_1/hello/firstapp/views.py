@@ -1,10 +1,9 @@
 import datetime
 from django.shortcuts import render, redirect
 from .forms import *
-from .models import Person
+from .models import Person, Image, File
 from django.template.response import TemplateResponse
 from django.http import *
-
 
 
 def index(request):
@@ -144,7 +143,7 @@ def db(request):
             return redirect('new_form')
 
 
-def edit_form(request, id): # змененение данных клиента в  БД
+def edit_form(request, id):  # Изменение данных клиента в  БД
     person = Person.object_person.get(id=id)
     # Если пользователь вернул отредактированные данные
     if request.method == "POST":
@@ -154,11 +153,11 @@ def edit_form(request, id): # змененение данных клиента �
         return redirect('my_form')
     # Если пользователь отправляет данные на редактирование
     data = {'person': person}
-    return render (request, 'firstapp/edit_form.html', context=data)
+    return render(request, 'firstapp/edit_form.html', context=data)
 
 
 # Удаление данных о клиенте
-def delete(request, id):
+def delete(request, id):  # Удаление данных о клиенте
     try:
         person = Person.object_person.get(id=id)
         person.delete()
@@ -170,3 +169,47 @@ def delete(request, id):
     form = NameForm()
     context = {'form': form}
     return render(request, 'name.html', context)
+
+
+def form_up_img(request):  # Загрузка изображения
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+    my_text = 'Загруженные изображения'
+    my_img = Image.obj_img.all()
+    form = ImageForm()
+    context = {'form': form, 'my_text': my_text, 'my_img': my_img}
+    return render(request, "firstapp/form_up_img.html", context)
+
+
+def delete_img(request, id):  # Удаление изображения
+    try:
+        img = Image.obj_img.get(id=id)
+        img.delete()
+        return redirect('form_up_img')
+    except Image.DoesNotExist:
+        return HttpResponseNotFound('<h2>Объект не найден</h2>')
+
+
+def form_up_pdf(request):  # Загрузка PDF
+    if request.method == "POST":
+        form = FileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+    my_text = 'Загруженные файлы'
+    form = FileForm()
+    file_obj = File.objects.all()
+    context = {'form': form, 'my_text': my_text, 'file_obj': file_obj}
+    return render(request, "firstapp/form_up_pdf.html", context)
+
+
+def delete_pdf(request, id):  # Удаление PDF
+    try:
+        pdf = File.objects.get(id=id)
+        pdf.delete()
+        return redirect('form_up_pdf')
+    except File.DoesNotExist:
+        return HttpResponseNotFound('<h2>Объект не найден</h2>')
