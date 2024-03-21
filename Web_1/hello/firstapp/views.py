@@ -1,7 +1,7 @@
 import datetime
 from django.shortcuts import render, redirect
 from .forms import *
-from .models import Person, Image, File
+from .models import Person, Image, File, VideoFile, AudioFile
 from django.template.response import TemplateResponse
 from django.http import *
 
@@ -212,4 +212,48 @@ def delete_pdf(request, id):  # Удаление PDF
         pdf.delete()
         return redirect('form_up_pdf')
     except File.DoesNotExist:
+        return HttpResponseNotFound('<h2>Объект не найден</h2>')
+
+
+def form_up_video(request):  # Загрузка видео
+    if request.method == "POST":
+        form = VideoFrom(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+    my_text = 'Загрузка видеофайла'
+    form = VideoFrom()
+    file_obj = VideoFile.obj_video.all()
+    context = {'form': form, 'my_text': my_text, 'file_obj': file_obj}
+    return render(request, "firstapp/form_up_video.html", context)
+
+
+def delete_video(request, id):  # Удаление видео
+    try:
+        video = VideoFile.obj_video.get(id=id)
+        video.delete()
+        return redirect('form_up_video')
+    except Person.DoesNotExist:
+        return HttpResponseNotFound('<h2>Объект не найден</h2>')
+
+
+def form_up_audio(request):  # Загрузка аудио
+    if request.method == "POST":
+        form = AudioForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+    my_text = 'Загрузка аудио'
+    form = AudioForm()
+    file_obj = AudioFile.obj_audio.all()
+    context = {'form': form, 'my_text': my_text, 'file_obj': file_obj}
+    return render(request, "firstapp/form_up_audio.html", context)
+
+
+def delete_audio(request, id):  # Удаление аудио
+    try:
+        audio = AudioFile.obj_audio.get(id=id)
+        audio.delete()
+        return redirect('form_up_audio')
+    except Person.DoesNotExist:
         return HttpResponseNotFound('<h2>Объект не найден</h2>')
